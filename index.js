@@ -72,7 +72,9 @@ app.post('/calendar', async (req, res) => {
     //Insert nutriData content into the nutri-card table in supabase
     const { data, error } = await supabase
         .from('nutri-card')
-        .insert([ nutriData ]);;
+        .insert([ nutriData ]);
+
+    console.log("Here's the data being inserted:", data);
 
     if (error) {
         console.error('Error inserting data:', error);
@@ -115,7 +117,9 @@ app.post('/calendar2', async (req, res) => {
     //Insert nutriData content into the fit table in supabase
     const { data, error } = await supabase
         .from('fit-card')
-        .insert([ nutriData ]);;
+        .insert([ nutriData ]);
+
+    console.log(data);
 
     if (error) {
         console.error('Error inserting data:', error);
