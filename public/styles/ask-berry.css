@@ -1,0 +1,67 @@
+#ai-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    margin-top: 80px;
+    margin-bottom: 80px;
+    background-color: white;
+    padding-bottom: 40px;
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+#ai-description {
+    font-size: 1.2rem;
+    width: 60%;
+    text-align: center;
+}
+
+#ai-response {
+    width: 60%;
+    font-size: 1.5rem;
+    background-color: #efedef;
+    min-height: 700px;
+    padding: 20px;
+}
+
+#berry-form {
+    width: 100%;             /* Forces the form to fill the 60% container */
+    display: flex;           /* Enables flexbox inside the form */
+    flex-direction: column;  /* Stacks textarea and button vertically */
+    align-items: center;     /* Centers the button horizontally */
+    gap: 20px;               /* Adds space between textarea and button */
+}
+
+#user-prompt {
+    width: 60%;
+    /* You can remove display: flex, flex-direction, align-items here */
+    margin: 0 auto; /* Ensures the whole block is centered on the page */
+}
+
+#prompt {
+    width: 100%;
+    min-height: 150px;
+    background-color: #efedef;
+    font-size: 20px;
+    padding: 10px;
+}
+
+#submit-prompt {
+    width: 40%;
+    height: 50px;
+    font-size: 1.4rem;
+}
+
+.btn1 {
+    color: white;
+    background-color: #27D926;
+    transition: background-color 200ms, transform 300ms;
+}
+
+.btn1:hover {
+    background-color: #D92627;
+    transform: scale(1.1, 1.1);
+}

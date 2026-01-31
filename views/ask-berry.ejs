@@ -1,0 +1,26 @@
+<%- include('partials/header.ejs') %>
+
+<div id="ai-container">
+    <h1 id="ai-heading" class="page-title">ASK BERRY</h1>
+    <p id="ai-description">
+        Berry is our Nutritional and Fitness AI specialist. Taking data from the most credible nutritional 
+        and fitness databases and APIs, berry is here to help you understand more about what you need to do 
+        to achieve your health goals for a better life. You can ask Berry any questions you might have about 
+        Nutrition and Fitness. You can also ask Berry to help you make a meal plan and an exercise routine 
+        to help you achieve your health goals. Berry will always guide you behind the reason for each 
+        suggestion, and help you create the plan that works for you
+    </p>
+    <div id="ai-response">
+        <% if(!locals.response) { %>
+            <p id="default-response">Berry's response will appear here...</p>
+        <% } else { %>
+            <p style="white-space: pre-wrap;"><%= response %></p>
+        <% } %>
+    </div>
+    <div id="user-prompt">
+        <form action="/ask-berry" method="POST" id="berry-form">
+            <textarea id="prompt" name="prompt" placeholder="Enter your prompt"></textarea>
+            <input type="submit" id="submit-prompt" class="btn1" name="submit-prompt" value="Submit Prompt">
+        </form>
+    </div>
+</div>

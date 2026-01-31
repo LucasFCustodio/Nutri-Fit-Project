@@ -1,0 +1,201 @@
+h1 {
+    font-size: 3rem;
+}
+
+h2 {
+    font-size: 2.2rem;
+}
+
+ul {
+    width: 50%;
+}
+
+li {
+    font-size: 18px;
+    line-height: 30px;
+}
+
+#card-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 100px;
+    gap: 20px;
+}
+
+#nutricard-form {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    background-color: #efedef;
+    padding: 30px 30px 30px 30px;
+    margin-top: 20px;
+    border: 2px solid black;
+    border-radius: 15px;
+    background-image: url("/images/nutricard-form-background.jpg");
+    background-size: cover;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#title-label {
+    font-size: 24px;
+    font-weight: bold;
+    grid-column: 1 / -1;
+    margin-bottom: -10px;
+    color: white;
+}
+
+#title {
+    grid-column: 1 / 4;
+    margin-bottom: 10px;
+}
+
+#extras {
+    grid-column: 1 / 4;
+}
+
+#notes {
+    grid-column: 1 / 4;
+}
+
+#submit-button {
+    grid-column: 1 / 4;
+}
+
+#extras-label {
+    grid-column: 1 / 4;
+}
+
+#notes-label {
+    grid-column: 1 / 4;
+}
+
+#title {
+    width: 100%;
+    font-size: 24px;
+    margin: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    font-weight: 700;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+#day-div {
+    grid-column: 1 / 4;
+    margin: 5px 0;
+    font-weight: 700;
+    padding: 8px;
+}
+
+#day {
+    width: 100%;
+    font-size: 24px;
+    margin: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    font-weight: 700;
+    padding: 10px;
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+
+#time-div {
+    grid-column: 1 / 4;
+    margin: 5px 0;
+    font-weight: 700;
+    padding: 8px;
+}
+
+#time {
+    width: 100%;
+    font-size: 24px;
+    margin: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    font-weight: 700;
+    padding: 10px;
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+
+.inputs {
+    font-size: 20px;
+    background-color: rgba(255, 255, 255, 0.7);
+    box-sizing: border-box;
+}
+
+.input-div {
+    width: 100%;
+    margin: 5px 0;
+    font-weight: 700;
+    padding: 8px;
+}
+
+.field-labels {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 10px;
+    color: white;
+}
+
+.field-labels2 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 10px;
+    color: white;
+}
+
+.textarea {
+    width: 100%;
+    min-height: 80px;
+    font-size: 18px;
+    line-height: 20px;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 8px;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+#card-title:focus {
+    background-color: rgba(217, 38, 39, 0.5);
+}
+
+.inputs:focus {
+    background-color: rgba(217, 38, 39, 0.5);
+}
+
+.inputs2:focus {
+    background-color: rgba(217, 38, 39, 0.5);
+}
+
+.textarea:focus {
+    background-color: rgba(217, 38, 39, 0.5);
+}
+
+#home-form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#home-button {
+    width: 40%;
+    height: 50px;
+    font-size: 1.4rem;
+    transition: background-color 200ms, transform 300ms;
+}
+
+#home-button:hover {
+    background-color: rgba(217, 38, 39, 0.9);
+    transform: scale(1.1, 1.1);
+}
+
+#submit-button {
+    transition: background-color 200ms, transform 300ms;
+}
+
+#submit-button:hover {
+    background-color: rgba(217, 38, 39, 0.7);
+    transform: scale(1.05, 1.05);
+}

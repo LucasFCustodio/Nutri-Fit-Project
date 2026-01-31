@@ -1,0 +1,51 @@
+h1 {
+    margin: auto;
+    font-size: 3rem;
+}
+
+#calendar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 40px;
+    width: 80%;
+    margin: auto;
+    margin-top: 40px;
+}
+
+#empty-calendar {
+    margin: auto;
+}
+
+.day {
+    font-size: 2.2rem;
+}
+
+.timeline {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    width: 90%;
+    background-color: lightgray;
+    border-radius: 10px;
+}
+
+.card {
+    border: 2px solid black;
+    border-radius: 10px;
+    width: 150px;
+    height: 200px;
+    padding-left: 15px;
+}
+
+.nutri-card {
+    background-color: rgba(217, 38, 39, 0.7);
+}
+.fit-card {
+    background-color: rgba(31, 223, 88, 0.7);
+}
+
+.test-class {
+    height: 100vh;
+}

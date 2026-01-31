@@ -1,0 +1,147 @@
+<%- include('partials/header.ejs') %>
+
+<div id="calendar-container">
+    <h1 id="page-title">Calendar</h1>
+    <% if (!locals.nutriCards && !locals.fitCards) { %>
+        <h2 id="empty-calendar">No cards made yet 😢</h2>
+    <% } else { %>
+    <h2 class="day">Sunday</h2>
+    <div id="sunday-container" class="timeline">
+        <% fitCards.forEach(function(card) { %>
+            <%  if (card.day === 'Sunday' || card.day === 'sunday') { %>
+                <div class='card fit-card'>
+                    <h3 class="card-title"><%= card.title %></h3>
+                    <h4 class="card-time"><%= card.time %></h4>
+                </div>
+            <% } %>
+        <% }) %>
+        <% nutriCards.forEach(function(card) { %>
+            <%  if (card.day === 'Sunday' || card.day === 'sunday') { %>
+                <div class='card nutri-card'>
+                    <h3 class="card-title"><%= card.title %></h3>
+                    <h4 class="card-time"><%= card.time %></h4>
+                </div>
+            <% } %>
+        <% }) %>
+    </div>
+    <h2 class="day">Monday</h2>
+    <div id="monday-container" class="timeline">
+        <% fitCards.forEach(function(card) { %>
+            <%  if (card.day === 'Monday' || card.day === 'monday') { %>
+                <div class='card fit-card'>
+                    <h3 class="card-title"><%= card.title %></h3>
+                    <h4 class="card-time"><%= card.time %></h4>
+                </div>
+            <% } %>
+        <% }) %>
+        <% nutriCards.forEach(function(card) { %>
+            <%  if (card.day === 'Monday' || card.day === 'monday') { %>
+                <div class='card nutri-card'>
+                    <h3 class="card-title"><%= card.title %></h3>
+                    <h4 class="card-time"><%= card.time %></h4>
+                </div>
+            <% } %>
+        <% }) %>
+    </div>
+
+    <h2 class="day">Tuesday</h2>
+    <div id="tuesday-container" class="timeline">
+        <% fitCards.forEach(function(card) { %>
+            <%  if (card.day === 'Tuesday' || card.day === 'tuesday') { %>
+                <div class='card fit-card'>
+                    <h3 class="card-title"><%= card.title %></h3>
+                    <h4 class="card-time"><%= card.time %></h4>
+                </div>
+            <% } %>
+        <% }) %>
+        <% nutriCards.forEach(function(card) { %>
+            <%  if (card.day === 'Tuesday' || card.day === 'tuesday') { %>
+                <div class='card nutri-card'>
+                    <h3 class="card-title"><%= card.title %></h3>
+                    <h4 class="card-time"><%= card.time %></h4>
+                </div>
+            <% } %>
+        <% }) %>
+    </div>
+
+    <h2 class="day">Wednesday</h2>
+    <div id="wednesday-container" class="timeline">
+        <% fitCards.forEach(function(card) { %>
+            <%  if (card.day === 'Wednesday' || card.day === 'wednesday') { %>
+                <div class='card fit-card'>
+                    <h3 class="card-title"><%= card.title %></h3>
+                    <h4 class="card-time"><%= card.time %></h4>
+                </div>
+            <% } %>
+        <% }) %>
+        <% nutriCards.forEach(function(card) { %>
+            <%  if (card.day === 'Wednesday' || card.day === 'wednesday') { %>
+                <div class='card nutri-card'>
+                    <h3 class="card-title"><%= card.title %></h3>
+                    <h4 class="card-time"><%= card.time %></h4>
+                </div>
+            <% } %>
+        <% }) %>
+    </div>
+
+    <h2 class="day">Thursday</h2>
+    <div id="thursday-container" class="timeline">
+        <% fitCards.forEach(function(card) { %>
+            <%  if (card.day === 'Thursday' || card.day === 'thursday') { %>
+                <div class='card fit-card'>
+                    <h3 class="card-title"><%= card.title %></h3>
+                    <h4 class="card-time"><%= card.time %></h4>
+                </div>
+            <% } %>
+        <% }) %>
+        <% nutriCards.forEach(function(card) { %>
+            <%  if (card.day === 'Thursday' || card.day === 'thursday') { %>
+                <div class='card nutri-card'>
+                    <h3 class="card-title"><%= card.title %></h3>
+                    <h4 class="card-time"><%= card.time %></h4>
+                </div>
+            <% } %>
+        <% }) %>
+    </div>
+
+    <h2 class="day">Friday</h2>
+    <div id="friday-container" class="timeline">
+        <% fitCards.forEach(function(card) { %>
+            <%  if (card.day === 'Friday' || card.day === 'friday') { %>
+                <div class='card fit-card'>
+                    <h3 class="card-title"><%= card.title %></h3>
+                    <h4 class="card-time"><%= card.time %></h4>
+                </div>
+            <% } %>
+        <% }) %>
+        <% nutriCards.forEach(function(card) { %>
+            <%  if (card.day === 'Friday' || card.day === 'friday') { %>
+                <div class='card nutri-card'>
+                    <h3 class="card-title"><%= card.title %></h3>
+                    <h4 class="card-time"><%= card.time %></h4>
+                </div>
+            <% } %>
+        <% }) %>
+    </div>
+
+    <h2 class="day">Saturday</h2>
+    <div id="saturday-container" class="timeline">
+        <% fitCards.forEach(function(card) { %>
+            <%  if (card.day === 'Saturday' || card.day === 'saturday') { %>
+                <div class='card fit-card'>
+                    <h3 class="card-title"><%= card.title %></h3>
+                    <h4 class="card-time"><%= card.time %></h4>
+                </div>
+            <% } %>
+        <% }) %>
+        <% nutriCards.forEach(function(card) { %>
+            <%  if (card.day === 'Saturday' || card.day === 'saturday') { %>
+                <div class='card nutri-card'>
+                    <h3 class="card-title"><%= card.title %></h3>
+                    <h4 class="card-time"><%= card.time %></h4>
+                </div>
+            <% } %>
+        <% }) %>
+    </div>
+    <% } %>
+</div>

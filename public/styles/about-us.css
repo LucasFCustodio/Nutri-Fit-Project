@@ -1,0 +1,122 @@
+/* About Us / Contact page – flexbox & grid */
+
+.about-us-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2rem 1rem 4rem;
+}
+
+/* Hero section – flexbox */
+.about-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.about-title {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.about-subtitle {
+    font-size: 1.25rem;
+    color: #555;
+}
+
+/* Developers section */
+.developers-section {
+    width: 100%;
+    max-width: 1100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.developers-heading {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* Developer cards – CSS Grid */
+.developers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+    justify-items: center;
+    align-items: start;
+    width: 100%;
+}
+
+.developer-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background: #f8f8f8;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+    max-width: 280px;
+}
+
+.developer-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.developer-photo-wrap {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e8e8e8;
+}
+
+.developer-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.developer-name {
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.developer-role {
+    font-size: 0.95rem;
+    color: #666;
+}
+
+/* Contact info – flexbox */
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 3rem;
+    padding: 2rem;
+}
+
+.contact-heading {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.contact-text {
+    color: #555;
+}
