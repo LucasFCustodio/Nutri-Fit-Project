@@ -45,6 +45,9 @@ h1 {
 .fit-card {
     background-color: rgba(31, 223, 88, 0.7);
 }
+.recovery-card {
+    background-color: rgba(212, 0, 255, 0.871);
+}
 
 .test-class {
     height: 100vh;

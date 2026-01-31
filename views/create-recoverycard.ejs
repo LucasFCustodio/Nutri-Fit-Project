@@ -1,22 +1,24 @@
 <%- include('partials/header.ejs') %>
 
 <div id="card-container">
-    <h1>Create your Fit Card</h1>
+    <h1>Create your Recovery Card</h1>
     <h2>
-        Fit card will help you organize your workouts in order to achieve your fitness goals.
+        Recovery card will help you organize your exercises in order to achieve your recovery goals.
     </h2>
     <ul>
-        <li>Give your exercise a descriptive title (e.g., "Chest and Shoulders Workout")</li>
-        <li>Choose what day this exercise is for</li>
-        <li>Choose what time you plan to exercise</li>
-        <li>Select the exercise type, duration, intensity, and muscle groups you'll be targeting</li>
-        <li>Add any notes about equipment, form tips, or modifications</li>
+        <li>Set a day and time when the exercise should be done</li>
+        <li>Give the card a clear title (e.g., "Heel Slides - Left Knee")</li>
+        <li>Describe the exercise, targeted body part, and goal</li>
+        <li>Specify sets, reps, rest, and duration</li>
+        <li>Mention equipment, precautions, and cues for correct form</li>
     </ul>
-    <form id="fitcard-form" action="/calendar2" method="post">
+
+    <form id="recoverycard-form" action="/calendar2" method="post">
         <label id="title-label" for="title">Card Title:</label>
         <input type="text" id="title" name="title" required>
+
         <label class="field-labels" for="day">Day:</label>
-        <select name="day" id="day" class="inputs" required>
+        <select name="day" id="day" class="inputs">
             <option value="sunday">Sunday</option>
             <option value="monday">Monday</option>
             <option value="tuesday">Tuesday</option>
@@ -93,14 +95,21 @@
             <option value="moderate">Moderate</option>
             <option value="high">High</option>
         </select>
-        <label class="field-labels" for="muscleGroups">Muscle Groups:</label>
-        <input type="text" id="muscleGroups" name="muscleGroups" class="inputs">
-        <label class="field-labels" for="equipment">Equipment Needed:</label>
+        <label class="field-labels" for="bodyPart">Target Body Part:</label>
+        <input type="text" id="bodyPart" name="bodyPart" class="inputs"/>
+
+        <label class="field-labels" for="precautions">Precautions:</label>
+        <textarea id="precautions" class="textarea" name="precautions"></textarea>
+
+        <label class="field-labels" for="equipment">Equipment / Aids:</label>
         <textarea id="equipment" class="textarea" name="equipment"></textarea>
-        <label class="field-labels2" for="notes">Notes:</label>
-        <textarea id="notes" class="textarea" name="notes"></textarea>
+
+        <label class="field-labels2" for="instructions">Instructions:</label>
+        <textarea id="instructions" class="textarea" name="instructions"></textarea>
+
         <input type="submit" id="submit-button" class="inputs" value="Submit">
     </form>
+
     <form id="home-form" action="/home" method="get">
         <button id="home-button" class="inputs" type="submit">Go Back Home</button>
     </form>

@@ -23,6 +23,14 @@
                 </div>
             <% } %>
         <% }) %>
+        <% recoveryCards.forEach(function(card) { %>
+            <%  if (card.day === 'Sunday' || card.day === 'sunday') { %>
+                <div class='card recovery-card'>
+                    <h3 class="card-title"><%= card.title %></h3>
+                    <h4 class="card-time"><%= card.time %></h4>
+                </div>
+            <% } %>
+        <% }) %>
     </div>
     <h2 class="day">Monday</h2>
     <div id="monday-container" class="timeline">
@@ -37,6 +45,14 @@
         <% nutriCards.forEach(function(card) { %>
             <%  if (card.day === 'Monday' || card.day === 'monday') { %>
                 <div class='card nutri-card'>
+                    <h3 class="card-title"><%= card.title %></h3>
+                    <h4 class="card-time"><%= card.time %></h4>
+                </div>
+            <% } %>
+        <% }) %>
+        <% recoveryCards.forEach(function(card) { %>
+            <%  if (card.day === 'Sunday' || card.day === 'sunday') { %>
+                <div class='card recovery-card'>
                     <h3 class="card-title"><%= card.title %></h3>
                     <h4 class="card-time"><%= card.time %></h4>
                 </div>
@@ -62,6 +78,14 @@
                 </div>
             <% } %>
         <% }) %>
+        <% recoveryCards.forEach(function(card) { %>
+            <%  if (card.day === 'Sunday' || card.day === 'sunday') { %>
+                <div class='card recovery-card'>
+                    <h3 class="card-title"><%= card.title %></h3>
+                    <h4 class="card-time"><%= card.time %></h4>
+                </div>
+            <% } %>
+        <% }) %>
     </div>
 
     <h2 class="day">Wednesday</h2>
@@ -77,6 +101,14 @@
         <% nutriCards.forEach(function(card) { %>
             <%  if (card.day === 'Wednesday' || card.day === 'wednesday') { %>
                 <div class='card nutri-card'>
+                    <h3 class="card-title"><%= card.title %></h3>
+                    <h4 class="card-time"><%= card.time %></h4>
+                </div>
+            <% } %>
+        <% }) %>
+        <% recoveryCards.forEach(function(card) { %>
+            <%  if (card.day === 'Sunday' || card.day === 'sunday') { %>
+                <div class='card recovery-card'>
                     <h3 class="card-title"><%= card.title %></h3>
                     <h4 class="card-time"><%= card.time %></h4>
                 </div>
@@ -102,6 +134,14 @@
                 </div>
             <% } %>
         <% }) %>
+        <% recoveryCards.forEach(function(card) { %>
+            <%  if (card.day === 'Sunday' || card.day === 'sunday') { %>
+                <div class='card recovery-card'>
+                    <h3 class="card-title"><%= card.title %></h3>
+                    <h4 class="card-time"><%= card.time %></h4>
+                </div>
+            <% } %>
+        <% }) %>
     </div>
 
     <h2 class="day">Friday</h2>
@@ -122,6 +162,14 @@
                 </div>
             <% } %>
         <% }) %>
+        <% recoveryCards.forEach(function(card) { %>
+            <%  if (card.day === 'Sunday' || card.day === 'sunday') { %>
+                <div class='card recovery-card'>
+                    <h3 class="card-title"><%= card.title %></h3>
+                    <h4 class="card-time"><%= card.time %></h4>
+                </div>
+            <% } %>
+        <% }) %>
     </div>
 
     <h2 class="day">Saturday</h2>
@@ -137,6 +185,14 @@
         <% nutriCards.forEach(function(card) { %>
             <%  if (card.day === 'Saturday' || card.day === 'saturday') { %>
                 <div class='card nutri-card'>
+                    <h3 class="card-title"><%= card.title %></h3>
+                    <h4 class="card-time"><%= card.time %></h4>
+                </div>
+            <% } %>
+        <% }) %>
+        <% recoveryCards.forEach(function(card) { %>
+            <%  if (card.day === 'Saturday' || card.day === 'saturday') { %>
+                <div class='card recovery-card'>
                     <h3 class="card-title"><%= card.title %></h3>
                     <h4 class="card-time"><%= card.time %></h4>
                 </div>

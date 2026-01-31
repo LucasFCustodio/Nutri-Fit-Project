@@ -1,7 +1,7 @@
 {
   "name": "nutri-fit-project",
   "version": "1.0.0",
-  "description": "**FAU Biomedical Hackathon** · Built by Lucas Fracasso Custodio & NathAnael Castro",
+  "description": "**FAU Biomedical Hackathon** · Built by Lucas Fracasso Custodio, NathAnael Castro, & Bruno DeSousa",
   "homepage": "https://github.com/LucasFCustodio/Nutri-Fit-Project#readme",
   "bugs": {
     "url": "https://github.com/LucasFCustodio/Nutri-Fit-Project/issues"
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/LucasFCustodio/Nutri-Fit-Project.git"
   },
   "license": "ISC",
-  "author": "Lucas Custodio, Nate Castro, Bruno Da Silva",
+  "author": "Lucas Custodio, Nate Castro, Bruno DeSousa",
   "type": "module",
   "main": "index.js",
   "scripts": {

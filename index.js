@@ -101,12 +101,24 @@ app.post('/calendar', async (req, res) => {
     const fitCount = await supabase
         .from('fit-card')
         .select('*', { count: 'exact' });
+    
+    //Fetch all recovery cards from supabase so I can send it to calendar.ejs
+    const recoveryCards = await supabase
+        .from('recovery-card')
+        .select('*');
+
+    //Send the amount of recovery cards to calendar.ejs
+    const recoveryCount = await supabase
+        .from('recovery-card')
+        .select('*', { count: 'exact' });
 
     res.render('calendar.ejs', {
         nutriCards: nutriCards.data,
         fitCards: fitCards.data,
+        recoveryCards: recoveryCards.data,
         nutriCount: nutriCount.count,
         fitCount: fitCount.count,
+        recoveryCount: recoveryCount.count,
         pageCss: 'styles/calendar.css',
         pageJQuery: 'js/calendar.js'
     });
@@ -147,11 +159,23 @@ app.post('/calendar2', async (req, res) => {
         .from('fit-card')
         .select('*', { count: 'exact' });
 
+    //Fetch all recovery cards from supabase so I can send it to calendar.ejs
+    const recoveryCards = await supabase
+        .from('recovery-card')
+        .select('*');
+
+    //Send the amount of recovery cards to calendar.ejs
+    const recoveryCount = await supabase
+        .from('recovery-card')
+        .select('*', { count: 'exact' });
+        
     res.render('calendar.ejs', {
         nutriCards: nutriCards.data,
         fitCards: fitCards.data,
+        recoveryCards: recoveryCards.data,
         nutriCount: nutriCount.count,
         fitCount: fitCount.count,
+        recoveryCount: recoveryCount.count,
         pageCss: 'styles/calendar.css',
         pageJQuery: 'js/calendar.js'
     });
@@ -178,11 +202,23 @@ app.get('/calendar', async (req, res) => {
         .from('fit-card')
         .select('*', { count: 'exact' });
 
+    //Fetch all recovery cards from supabase so I can send it to calendar.ejs
+    const recoveryCards = await supabase
+        .from('recovery-card')
+        .select('*');
+
+    //Send the amount of recovery cards to calendar.ejs
+    const recoveryCount = await supabase
+        .from('recovery-card')
+        .select('*', { count: 'exact' });
+
     res.render('calendar.ejs', {
         nutriCards: nutriCards.data,
         fitCards: fitCards.data,
+        recoveryCards: recoveryCards.data,
         nutriCount: nutriCount.count,
         fitCount: fitCount.count,
+        recoveryCount: recoveryCount.count,
         pageCss: 'styles/calendar.css',
         pageJQuery: 'js/calendar.js'
     });
@@ -198,6 +234,11 @@ app.get('/create/nutricard', (req, res) => {
 //Server MAKE FIT CARD get request
 app.get('/create/fitcard', (req, res) => {
     res.render('create-fitcard.ejs', { pageCss: '/styles/create-fitcard.css' });
+});
+
+//Server MAKE RECOVERY CARD get request
+app.get('/create/recoverycard', (req, res) => {
+    res.render('create-recoverycard.ejs', { pageCss: '/styles/create-recoverycard.css' });
 });
 
 // Contact Us / About Us – show developers
