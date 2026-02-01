@@ -101,6 +101,11 @@
     color: #666;
 }
 
+.developer-link {
+    text-decoration: none;
+    color: inherit;
+}
+
 /* Contact info – flexbox */
 .contact-info {
     display: flex;
