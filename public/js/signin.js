@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function(){
       return false;
     }
 
-    // Optional: simple name validation (letters, spaces, hyphens)
+    // Simple name validation (letters, spaces, hyphens)
     const namePattern = /^[A-Za-z\s\-']{2,}$/;
     if(!namePattern.test(first.value) || !namePattern.test(last.value)){
       e.preventDefault();

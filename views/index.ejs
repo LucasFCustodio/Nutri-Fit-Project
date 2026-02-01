@@ -14,9 +14,12 @@
         the place where you can receive guidance on the type of nutrition and exercises that 
         will help you achieve your goal, all backed up by real data!
     </p>
+    <% if(locals.data) { %>
+    <% } else { %>
     <form id="signin-form" action="/" method="get">
         <button id="signin-button" class="btn1" type="submit">Sign In</button>
     </form>
+    <% } %>
 </div>
 
 <div id="nutrifit-images-container">
@@ -73,6 +76,20 @@
         </p>
         <form id="fitcard-form" action="/create/fitcard" method="get">
             <button id="fitcard-button" class="btn1" type="submit">Create Fit Card</button>
+        </form>
+    </div>
+    <div id="recoverycard-container" class="cards-container">
+        <h3 id="recoverycard-heading" class="card-heading">Create a Recovery Card</h3>
+        <img id="recoverycard-image" class="card-image" src="images/recoverycard-image2.png" alt="recovery card drawing">
+        <p id="recoverycard-description" class="card-description">
+            Recovery Cards help you plan and track your recovery activities. Create a card for any
+            recovery activity and record duration, intensity, and form cues so you can
+            follow and improve it over time. Use Recovery Cards to schedule exercises, track progression, and
+            quickly reuse your most effective recovery activities. Need ideas? Ask Berry, our AI, to suggest or
+            customize recovery activities based on your goals.
+        </p>
+        <form id="recoverycard-form" action="/create/recoverycard" method="get">
+            <button id="recoverycard-button" class="btn1" type="submit">Create Recovery Card</button>
         </form>
     </div>
 </div>

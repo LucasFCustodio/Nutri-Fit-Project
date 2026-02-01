@@ -3,8 +3,8 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    gap: 30px;
     text-align: center;
+    margin-top: 50px;
 }
 
 #home-heading {
@@ -216,23 +216,23 @@
 #recoverycard-container {
     display: grid;
     grid-template-rows: 1fr 2fr 1fr;
-    grid-template-columns: 1fr 2fr 2fr;
+    grid-template-columns: 2fr 2fr 1fr;
     gap: 5px;
     padding: 0px 10% 0px 10%;
     align-items: center;
     margin-top: 40px;
     margin-bottom: 40px;
 }
-    
+
 #recoverycard-heading {
     grid-row: 1 / 2;
-    grid-column: 3 / 4;
+    grid-column: 1 / 4;
     font-size: 3rem;
 }
 
 #recoverycard-image {
     grid-row: 2 / 4;
-    grid-column: 3 / 4;
+    grid-column: 1 / 2;
     max-width: 80%;
 }
 
@@ -242,13 +242,12 @@
     font-size: 22px;
     line-height: 30px;
     letter-spacing: 0.8px;
-    margin-left: 40px;
     margin-right: 40px;
 }
 
 #recoverycard-form {
     grid-row: 3 / 4;
-    grid-column: 1 / 2;
+    grid-column: 3 / 4;
 }
 
 #recoverycard-button {
