@@ -314,6 +314,33 @@ app.get('/details/:type/:id', async (req, res) => {
     }
 });
 
+// Server POST request to DELETE a card
+app.post('/delete/:type/:id', async (req, res) => {
+    const cardType = req.params.type;
+    const cardId = req.params.id;
+
+    // Security Check: Ensure they are only trying to delete from valid tables
+    const allowedTables = ['nutri-card', 'fit-card', 'recovery-card'];
+    if (!allowedTables.includes(cardType)) {
+        return res.status(400).send("Invalid card type");
+    }
+
+    // Supabase Delete Operation
+    const { error } = await supabase
+        .from(cardType)       // Select the table (e.g., 'nutri-card')
+        .delete()             // The delete command
+        .eq('id', cardId);    // specific row where id matches
+
+    if (error) {
+        console.error("Error deleting card:", error);
+        res.send("Error deleting card. Please try again.");
+    } else {
+        console.log(`Deleted card ${cardId} from ${cardType}`);
+        // Redirect back to the calendar so they see it's gone
+        res.redirect('/calendar');
+    }
+});
+
 //Server MAKE NUTRI CARD get request
 app.get('/create/nutricard', (req, res) => {
     res.render('create-nutricard.ejs', { pageCss: '/styles/create-nutricard.css' });

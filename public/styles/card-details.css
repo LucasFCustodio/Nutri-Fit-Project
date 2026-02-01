@@ -100,3 +100,22 @@ a[href="/calendar"]:hover {
     background-color: #21b820;
     transform: translateY(-2px);
 }
+
+.delete-btn {
+    padding: 12px 30px;
+    background-color: #dc3545; /* Red color */
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 1rem; /* Match the text size of the link */
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    box-shadow: 0 4px 6px rgba(220, 53, 69, 0.2);
+    font-family: inherit; /* Ensures it uses the same font as the rest of the page */
+}
+
+.delete-btn:hover {
+    background-color: #c82333; /* Darker red on hover */
+    transform: translateY(-2px);
+}
