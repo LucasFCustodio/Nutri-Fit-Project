@@ -31,6 +31,10 @@ const SYSTEM_PROMPT = `You are Berry, a friendly and supportive fitness and nutr
 
 IMPORTANT: Your name is Berry. When users address you by name (e.g., "Hey Berry", "Berry, can you help", "What do you think, Berry?"), acknowledge it warmly and respond naturally. You should recognize variations like "berry", "Berry", "BERRY" as references to yourself.
 
+YOUR SCOPE - STAY ON TOPIC:
+You are designed ONLY for: personalized fitness guidance, nutrition and meal ideas, workout planning, general wellness, and healthy habit advice within the NutriFit app.
+If the user asks about anything outside this scope (e.g., politics, coding, general trivia, other apps, unrelated topics), you MUST respond politely with something like: "I'm Berry, NutriFit's fitness and nutrition assistant—I'm only here to help with workouts, nutrition, meal plans, and wellness. I'm not built to help with that. What can I help you with for your health or fitness today?" Do not answer off-topic questions; gently redirect to your purpose.
+
 Your role is to help users with:
 - Personalized fitness guidance
 - Nutrition suggestions and meal ideas
@@ -39,7 +43,7 @@ Your role is to help users with:
 
 CRITICAL RULES YOU MUST FOLLOW:
 1. DO NOT provide medical diagnoses or medical treatment advice
-2. DO NOT replace a doctor,or licensed professional
+2. DO NOT replace a doctor, or licensed professional
 3. Use clear, friendly, and supportive language
 4. Keep answers practical and easy to understand
 5. Ask clarifying questions only if absolutely necessary
@@ -47,6 +51,23 @@ CRITICAL RULES YOU MUST FOLLOW:
 7. Always emphasize consistency over intensity
 8. Keep responses concise but helpful
 9. When users mention "Berry" or address you by name, acknowledge it naturally (e.g., "Yes, I'm here to help!", "Hi! How can I assist you today?")
+
+FOOD AND NUTRITION - ALWAYS INCLUDE NUTRITION INFO:
+Whenever you mention, suggest, or recommend ANY food (single ingredient, meal, or snack), you MUST include for each item:
+- Calories (kcal)
+- Carbohydrates (g)
+- Protein (g)
+- Fats (g)
+- Serving size in grams (g)
+Use approximate values when exact data isn't available. Format clearly, e.g. per item: "— ~X kcal | Xg carbs | Xg protein | Xg fat | Xg serving."
+
+TAILOR SUGGESTED AMOUNTS TO THE USER'S CIRCUMSTANCE:
+Always base the suggested amounts (calories, protein, carbs, fats, and serving size) on what you know about the user. Consider:
+- Their stated goals (e.g., weight loss → moderate calories and portions; muscle gain → higher protein and adequate calories; general fitness → balanced)
+- Activity level or workout frequency if mentioned
+- Dietary restrictions or preferences (e.g., low-carb, vegetarian) if provided
+- Any context they share (e.g., "I'm cutting," "I need more energy," "I'm a beginner")
+When you don't have specific context, use balanced, moderate amounts and note that portions can be adjusted to their goals.
 
 When responding:
 - Tailor advice to the user's goals if provided (weight loss, muscle gain, general fitness, energy, consistency)
@@ -57,7 +78,7 @@ When responding:
 - If the user addresses you as "Berry", respond warmly and acknowledge your name
 
 RESPONSE FORMAT - Use lists for clarity:
-- Food recommendations: Always reply in list format. Use bullet points (- or *) for each food, meal idea, or recommendation. Example: "Here are some options:\\n- Option 1\\n- Option 2\\n- Option 3"
+- Food recommendations: Always reply in list format. For EACH food or meal item, include: calories, carbs (g), protein (g), fat (g), and serving size (g). Base the suggested amount on the user's circumstance (goals, activity, restrictions). Use bullet points (- or *) for each item with its nutrition line. Example: "Here are some options (amounts tailored to your goal):\\n- Oatmeal (1 cup cooked): ~150 kcal | 27g carbs | 5g protein | 3g fat | 240g serving\\n- Greek yogurt (1 cup): ~100 kcal | 6g carbs | 17g protein | 0.7g fat | 245g serving"
 - Medical or wellness advice: When giving general wellness tips, supplement suggestions, or lifestyle advice (within your scope), use a numbered or bulleted list. Do not give diagnoses or treatment—only general, practical tips in list form.
 - Multiple suggestions: Whenever you give 3 or more items (foods, tips, steps), format them as a clear list using markdown bullets or numbers so the user can scan easily.
 
@@ -157,10 +178,11 @@ export async function generateMealPlan(params) {
 
 Provide:
 1. Meal suggestions for each meal (breakfast, lunch, dinner, snacks if applicable)
-2. Approximate calories per meal
-3. Key nutrients to focus on
-4. Simple, practical meal ideas
-5. Tips for meal prep and consistency
+2. For EVERY food item mentioned: calories (kcal), carbohydrates (g), protein (g), fats (g), and serving size in grams (g). Tailor suggested amounts to the user's goal (e.g., weight loss, muscle gain, general fitness) and any dietary restrictions.
+3. Approximate calories per meal
+4. Key nutrients to focus on
+5. Simple, practical meal ideas
+6. Tips for meal prep and consistency
 
 Keep it balanced, realistic, and easy to follow. Avoid extreme restrictions.`;
 
@@ -245,7 +267,7 @@ function getFallbackResponse(message) {
     if (lowerMessage.includes('workout') || lowerMessage.includes('exercise')) {
         return "For workouts, start with 3 days per week, focusing on full-body exercises. Remember: consistency beats intensity! Start small and build gradually.";
     } else if (lowerMessage.includes('nutrition') || lowerMessage.includes('meal') || lowerMessage.includes('diet')) {
-        return "For nutrition, aim for balanced meals with protein, vegetables, and whole grains. Stay hydrated and eat regular meals. Small, sustainable changes work best!";
+        return "For nutrition, aim for balanced meals. Example foods with nutrition (kcal | carbs | protein | fat | serving g): Greek yogurt ~100 kcal | 6g carbs | 17g protein | 0.7g fat | 245g; chicken breast ~165 kcal | 0g carbs | 31g protein | 3.6g fat | 100g. Amounts can be tailored to your goals. Stay hydrated and eat regular meals. Small, sustainable changes work best!";
     } else {
         return "Focus on small, consistent steps toward your health goals. Remember, progress takes time - be patient with yourself!";
     }
@@ -280,22 +302,23 @@ function getFallbackMealPlan(params) {
     return `Here's a balanced meal plan for ${params.goal} (targeting ${params.calories} calories):
 
 **Breakfast (~400-500 calories)**
-- Whole grain toast with eggs and avocado
-- Or oatmeal with berries and nuts
-- Include protein and fiber
+- Whole grain toast (2 slices): ~160 kcal | 28g carbs | 6g protein | 2g fat | 60g serving
+- Eggs (2 large): ~140 kcal | 1g carbs | 12g protein | 10g fat | 100g serving
+- Avocado (half): ~120 kcal | 6g carbs | 2g protein | 11g fat | 68g serving
+- Oatmeal (1 cup cooked) with berries and nuts: ~250 kcal | 27g carbs | 8g protein | 5g fat | 240g serving
 
 **Lunch (~500-600 calories)**
-- Grilled chicken/fish with vegetables and quinoa
-- Or a hearty salad with protein
-- Balanced macros
+- Grilled chicken breast (150g): ~248 kcal | 0g carbs | 46g protein | 5g fat | 150g serving
+- Quinoa (1 cup cooked): ~222 kcal | 39g carbs | 8g protein | 4g fat | 185g serving
+- Mixed vegetables (1 cup): ~50 kcal | 10g carbs | 3g protein | 0.5g fat | 150g serving
 
 **Dinner (~500-600 calories)**
-- Lean protein, roasted vegetables, and a complex carb
-- Keep it colorful and varied
+- Lean protein, roasted vegetables, and a complex carb—include calories, carbs (g), protein (g), fat (g), and serving (g) for each item; tailor amounts to the user's goal.
 
 **Snacks (if needed)**
-- Greek yogurt, nuts, or fruit
-- Keep snacks around 100-200 calories
+- Greek yogurt (1 cup): ~100 kcal | 6g carbs | 17g protein | 0.7g fat | 245g serving
+- Almonds (28g): ~164 kcal | 6g carbs | 6g protein | 14g fat | 28g serving
+- Apple (1 medium): ~95 kcal | 25g carbs | 0.5g protein | 0.3g fat | 182g serving
 
 **Tips:**
 - Meal prep on weekends for easier weekdays
