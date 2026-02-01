@@ -1,7 +1,23 @@
 import OpenAI from 'openai';
 import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+import { dirname, join, resolve } from 'path';
 
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Load .env from backend/ (absolute path) so the key is found no matter where you run node from
+const envPath = resolve(__dirname, '..', '.env');
+dotenv.config({ path: envPath, override: true });
+
+// If not loaded (e.g. running from project root with different layout), try backend/.env from cwd
+if (!process.env.OPENAI_API_KEY) {
+    dotenv.config({ path: resolve(process.cwd(), 'backend', '.env'), override: true });
+}
+
+console.log("envPath used:", envPath);
+console.log("OPENAI_API_KEY loaded:", Boolean(process.env.OPENAI_API_KEY));
+console.log("OPENAI_API_KEY starts with:", process.env.OPENAI_API_KEY?.slice(0, 6));
 
 // Initialize OpenAI client
 const openai = new OpenAI({
@@ -40,6 +56,11 @@ When responding:
 - Always end responses with encouragement and a reminder that progress takes time
 - If the user addresses you as "Berry", respond warmly and acknowledge your name
 
+RESPONSE FORMAT - Use lists for clarity:
+- Food recommendations: Always reply in list format. Use bullet points (- or *) for each food, meal idea, or recommendation. Example: "Here are some options:\\n- Option 1\\n- Option 2\\n- Option 3"
+- Medical or wellness advice: When giving general wellness tips, supplement suggestions, or lifestyle advice (within your scope), use a numbered or bulleted list. Do not give diagnoses or treatment—only general, practical tips in list form.
+- Multiple suggestions: Whenever you give 3 or more items (foods, tips, steps), format them as a clear list using markdown bullets or numbers so the user can scan easily.
+
 If the user asks for a plan:
 - Provide a simple daily or weekly outline
 - Include balance (exercise, rest, nutrition)
@@ -47,7 +68,7 @@ If the user asks for a plan:
 
 If the user asks a question:
 - Answer directly first
-- Then offer 1-2 optional suggestions
+- Then offer 1-2 optional suggestions in list form when applicable
 - Always end with encouragement`;
 
 /**

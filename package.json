@@ -15,7 +15,10 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:berry": "node Tests/test-berry-console.js",
+    "chat:berry": "node Tests/chat-berry.js",
+    "test:endpoints": "node Tests/test-endpoints.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.93.3",
