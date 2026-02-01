@@ -310,7 +310,7 @@ app.get('/ask-berry', (req, res) => {
     res.render('ask-berry.ejs', { 
         pageCss: '/styles/ask-berry.css',
         response: null,      // Initialize as null so the page doesn't crash
-        userPrompt: ''       // Initialize as empty string
+        userPrompt: null       // Initialize as null
     });
 });
 

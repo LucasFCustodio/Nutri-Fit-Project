@@ -14,7 +14,7 @@ h1 {
 }
 
 #ai-description {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     width: 60%;
     text-align: center;
 }
@@ -22,9 +22,13 @@ h1 {
 #ai-response {
     width: 60%;
     font-size: 1.5rem;
-    background-color: #efedef;
-    min-height: 700px;
+    background-color: #ffffff;
+    min-height: 200px;
     padding: 20px;
+    outline-color: black;
+    outline-width: 4px;
+    outline-style: solid;
+    border-radius: 10px;
 }
 
 #berry-form {
@@ -36,23 +40,26 @@ h1 {
 }
 
 #user-prompt {
-    width: 60%;
-    /* You can remove display: flex, flex-direction, align-items here */
-    margin: 0 auto; /* Ensures the whole block is centered on the page */
+    margin-top: 60px;
 }
 
 #prompt {
-    width: 100%;
-    min-height: 150px;
-    background-color: #efedef;
+    width: 95%;
+    min-height: 50px;
+    background-color: #ffffff;
     font-size: 20px;
-    padding: 10px;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 4px 4px 10px 2px rgb(175, 175, 175);
+    border-color: white;
 }
 
 #submit-prompt {
     width: 40%;
     height: 50px;
     font-size: 1.4rem;
+    border-color: white;
+    border-radius: 15px;
 }
 
 .btn1 {
@@ -64,4 +71,22 @@ h1 {
 .btn1:hover {
     background-color: #D92627;
     transform: scale(1.1, 1.1);
+}
+
+.user-message {
+    background: #e8f0ff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    text-align: right;
+    padding-right: 30px;
+    padding-left: 30px;
+}
+
+.ai-message {
+    background: #e8fffa;
+    padding: 20px;
+    border-radius: 8px;
+    padding-right: 30px;
+    padding-left: 30px;
 }
