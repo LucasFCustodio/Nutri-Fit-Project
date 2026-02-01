@@ -1,0 +1,102 @@
+#main-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px; /* Prevents edges from touching on mobile */
+    box-sizing: border-box;
+}
+
+/* Main White Card */
+.detail-container {
+    background-color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px; /* Keeps it looking like a 'card' */
+    text-align: center;
+    border-top: 5px solid #27D926; /* Brand color accent on top */
+}
+
+/* Headings */
+h1 {
+    color: #333;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0;
+    letter-spacing: 1px;
+}
+
+.card-info h2 {
+    color: #555;
+    font-size: 1.4rem;
+    margin-bottom: 0.2rem;
+}
+
+.card-info h3 {
+    color: #777;
+    font-size: 1rem;
+    font-weight: normal;
+    margin: 0.2rem 0 1.5rem 0;
+}
+
+/* Sub-Containers (The Gray Boxes) */
+/* We group all your specific IDs here to share the same style */
+#grams-container,
+#meal-container,
+#extras-container,
+#fit-container1,
+#fit-container2,
+#recovery-container1,
+#recovery-container2 {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    text-align: left; /* Aligns the data lists to the left */
+}
+
+/* Text inside the boxes */
+.card-info p {
+    margin: 8px 0;
+    color: #444;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    border-bottom: 1px solid #eee; /* Subtle separator lines */
+    padding-bottom: 4px;
+}
+
+.card-info p:last-child {
+    border-bottom: none; /* Remove line from last item in box */
+}
+
+.card-info strong {
+    color: #2c3e50;
+    font-weight: 600;
+    display: inline-block;
+    width: 140px; /* Aligns the values nicely */
+}
+
+/* The "Back to Calendar" Button */
+a[href="/calendar"] {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 30px;
+    background-color: #27D926; /* Your brand green */
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: transform 0.2s, background-color 0.2s;
+    box-shadow: 0 4px 6px rgba(39, 217, 38, 0.2);
+}
+
+a[href="/calendar"]:hover {
+    background-color: #21b820;
+    transform: translateY(-2px);
+}

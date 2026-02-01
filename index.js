@@ -279,8 +279,39 @@ app.get('/calendar', async (req, res) => {
         pageCss: 'styles/calendar.css',
         pageJQuery: 'js/calendar.js'
     });
+});
 
-    console.log("Here are the nutri cards:", nutriCards.data);
+// Server GET request for specific card details
+// :type matches "nutri-card", "fit-card", etc.
+// :id matches the specific ID number (e.g., 5)
+app.get('/details/:type/:id', async (req, res) => {
+    const cardType = req.params.type; // e.g., 'nutri-card'
+    const cardId = req.params.id;     // e.g., '14'
+
+    // Validate that the type is allowed (security best practice)
+    const allowedTables = ['nutri-card', 'fit-card', 'recovery-card'];
+    if (!allowedTables.includes(cardType)) {
+        return res.status(400).send("Invalid card type");
+    }
+
+    // Fetch the SINGLE specific row from Supabase
+    const { data, error } = await supabase
+        .from(cardType)       // Select table based on URL
+        .select('*')
+        .eq('id', cardId)     // Find row where id matches URL
+        .single();            // Expect only one result
+
+    if (error) {
+        console.error("Error fetching details:", error);
+        res.send("Error finding that card.");
+    } else {
+        // Render the new details page and pass the data
+        res.render('card-details.ejs', { 
+            card: data, 
+            type: cardType,
+            pageCss: '/styles/card-details.css' // Optional: create this CSS file later
+        });
+    }
 });
 
 //Server MAKE NUTRI CARD get request

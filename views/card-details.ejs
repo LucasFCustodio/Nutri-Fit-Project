@@ -1,0 +1,64 @@
+<%- include('partials/header.ejs') %>
+
+<div id="main-container">
+<div class="detail-container">
+        <h1><%= type.toUpperCase().replace('-', ' ') %> DETAILS</h1>
+        
+        <div class="card-info">
+            <h2>Name: <%= card.title || "No Name" %></h2>
+            <h3>Day: <%= card.day %></h3>
+            <h3>Time: <%= card.time %></h3>
+
+            <% if (type === 'nutri-card') { %>
+                <div id="grams-container">
+                    <p><strong>carbs(g):</strong> <%= card.carbs %></p>
+                    <p><strong>protein(g):</strong> <%= card.protein %></p>
+                    <p><strong>fat(g):</strong> <%= card.fat %></p>
+                </div>
+                <div id="meal-container">
+                    <p><strong>Meal Base:</strong> <%= card.base %></p>
+                    <p><strong>Meal Main:</strong> <%= card.main %></p>
+                    <p><strong>Meal side:</strong> <%= card.veggies %></p>
+                </div>
+                <div id="extras-container">
+                    <p><strong>extras:</strong> <%= card.extras %></p>
+                    <p><strong>Notes:</strong> <%= card.notes %></p>
+                </div>
+            <% } %>
+
+            <% if (type === 'fit-card') { %>
+                <div id="fit-container1">
+                    <p><strong>Exercise Type:</strong> <%= card.exerciseType %></p>
+                    <p><strong>Duration (mins):</strong> <%= card.duration %></p>
+                    <p><strong>Intensity:</strong> <%= card.intensity %></p>
+                </div>
+                <div id="fit-container2">
+                    <p><strong>Muscle Groups:</strong> <%= card.muscleGroups %></p>
+                    <p><strong>Equipment:</strong> <%= card.equipment %></p>
+                </div>
+                <div id="extras-container">
+                    <p><strong>extras:</strong> <%= card.extras %></p>
+                    <p><strong>Notes:</strong> <%= card.notes %></p>
+                </div>
+            <% } %>
+
+            <% if (type === 'recovery-card') { %>
+                <div id="recovery-container1">
+                    <p><strong>Exercise Type:</strong> <%= card.exerciseType %></p>
+                    <p><strong>Duration (mins):</strong> <%= card.duration %></p>
+                    <p><strong>Intensity:</strong> <%= card.intensity %></p>
+                </div>
+                <div id="recovery-container2">
+                    <p><strong>Precautions:</strong> <%= card.precautions %></p>
+                    <p><strong>Body Part:</strong> <%= card.bodyPart %></p>
+                </div>
+                <div id="extras-container">
+                    <p><strong>Equipment:</strong> <%= card.equipment %></p>
+                    <p><strong>Instructions:</strong> <%= card.instructions %></p>
+                </div>
+            <% } %>
+        </div>
+
+        <a href="/calendar">Back to Calendar</a>
+    </div>
+    </div>

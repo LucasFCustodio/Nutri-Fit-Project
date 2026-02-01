@@ -3,6 +3,12 @@ h1 {
     font-size: 3rem;
 }
 
+a {
+    text-decoration: none;
+    color: inherit;        /* Keeps your text color (black/dark gray) */
+    display: block;        /* Ensures the link wraps the whole card properly */
+}
+
 #calendar-container {
     display: flex;
     flex-direction: column;
