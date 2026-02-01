@@ -179,7 +179,64 @@ app.post('/calendar2', async (req, res) => {
         pageCss: 'styles/calendar.css',
         pageJQuery: 'js/calendar.js'
     });
-})
+});
+
+app.post('/calendar3', async (req, res) => {
+    nutriData = req.body;
+    //Insert nutriData content into the fit table in supabase
+    const { data, error } = await supabase
+        .from('recovery-card')
+        .insert([ nutriData ]);
+
+    console.log(data);
+
+    if (error) {
+        console.error('Error inserting data:', error);
+    } else {
+        console.log('Data inserted successfully:', data);
+    }
+
+    //Fetch all nutri cards from supabase so I can send it to calendar.ejs
+    const nutriCards = await supabase
+        .from('nutri-card')
+        .select('*');
+
+    //Send the amount of nutri cards to calendar.ejs
+    const nutriCount = await supabase
+        .from('nutri-card')
+        .select('*', { count: 'exact' });
+
+    //Fetch all fit cards from supabase so I can send it to calendar.ejs
+    const fitCards = await supabase
+        .from('fit-card')
+        .select('*');
+
+    //Send the amount of fit cards to calendar.ejs
+    const fitCount = await supabase
+        .from('fit-card')
+        .select('*', { count: 'exact' });
+
+    //Fetch all recovery cards from supabase so I can send it to calendar.ejs
+    const recoveryCards = await supabase
+        .from('recovery-card')
+        .select('*');
+
+    //Send the amount of recovery cards to calendar.ejs
+    const recoveryCount = await supabase
+        .from('recovery-card')
+        .select('*', { count: 'exact' });
+        
+    res.render('calendar.ejs', {
+        nutriCards: nutriCards.data,
+        fitCards: fitCards.data,
+        recoveryCards: recoveryCards.data,
+        nutriCount: nutriCount.count,
+        fitCount: fitCount.count,
+        recoveryCount: recoveryCount.count,
+        pageCss: 'styles/calendar.css',
+        pageJQuery: 'js/calendar.js'
+    });
+});
 
 app.get('/calendar', async (req, res) => {
     //Fetch all nutri cards from supabase so I can send it to calendar.ejs
