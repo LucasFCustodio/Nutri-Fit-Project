@@ -11,16 +11,29 @@
         suggestion, and help you create the plan that works for you
     </p>
     <div id="ai-response">
-        <% if(!locals.response) { %>
-            <p id="default-response">Berry's response will appear here...</p>
-        <% } else { %>
-            <p style="white-space: pre-wrap;"><%= response %></p>
+        <% if (locals.userPrompt) { %>
+        <div class="user-message">
+            <strong>You:</strong>
+            <p style="white-space: pre-wrap;"><%= userPrompt %></p>
+        </div>
         <% } %>
-    </div>
-    <div id="user-prompt">
+
+        <% if (!locals.response) { %>
+            <div class="ai-message">
+                <strong>Berry:</strong>
+                <p style="white-space: pre-wrap;">I'm here to help with your fitness and nutrition questions!</p>
+            </div>        <% } else { %>
+            <div class="ai-message">
+                <strong>Berry:</strong>
+                <p style="white-space: pre-wrap;"><%= response %></p>
+            </div>
+        <% } %>
+        <div id="user-prompt">
         <form action="/ask-berry" method="POST" id="berry-form">
-            <textarea id="prompt" name="prompt" placeholder="Enter your prompt"></textarea>
+            <textarea id="prompt" name="prompt" placeholder="Ask Berry anything about nutrition and fitness..."></textarea>
             <input type="submit" id="submit-prompt" class="btn1" name="submit-prompt" value="Submit Prompt">
         </form>
+        </div>
     </div>
+    
 </div>
