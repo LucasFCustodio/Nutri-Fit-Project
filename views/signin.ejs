@@ -1,21 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In to NutriFit</title>
-</head>
-<body>
-    <div style="display: flex; flex-direction: column; align-items: center; height: 100vh; justify-content: center; gap: 100px;">
-        <h1>Welcome to NutriFit, your place to get good nutrition, and get fit!</h1>
-        <h2>Let's begin by having you login into our system</h2>
-        <form action="/home", method="post">
-            <label for="fname">First Name</label>
-            <input type="text", id="firstName", name="firstName">
-            <label for="lname">Last Name</label>
-            <input type="text", id="lastName", name="lastName">
-            <input type="submit", value="Submit">
-        </form>
-    </div>
-</body>
-</html>
+<link rel="stylesheet" href="/styles/signin.css">
+
+<div id="nutrifit-logo-container">
+    <img id="signin-logo" class="logo" src="/images/nutri-fit-logo.jpg" alt="NutriFit Logo">
+</div>
+<div class="signin-wrapper">
+  <main class="signin-card" role="main" aria-labelledby="signin-heading">
+    <h1 id="signin-heading">Welcome to NutriFit</h1>
+
+    <form id="signin-form" action="/home" method="post" novalidate>
+      <div id="signin-error" class="input-error" aria-live="polite"></div>
+
+      <div class="form-row">
+        <div class="form-group" style="flex:1;">
+          <label for="firstName">First name</label>
+          <input type="text" id="firstName" name="firstName" required aria-required="true">
+        </div>
+        <div class="form-group" style="flex:1;">
+          <label for="lastName">Last name</label>
+          <input type="text" id="lastName" name="lastName" required aria-required="true">
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn1">Sign in</button>
+      </div>
+
+    </form>
+  </main>
+</div>
+
+<script src="/js/signin.js" defer></script>
