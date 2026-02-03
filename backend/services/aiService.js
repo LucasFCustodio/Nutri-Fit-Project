@@ -15,14 +15,16 @@ if (!process.env.OPENAI_API_KEY) {
     dotenv.config({ path: resolve(process.cwd(), 'backend', '.env'), override: true });
 }
 
-console.log("envPath used:", envPath);
-console.log("OPENAI_API_KEY loaded:", Boolean(process.env.OPENAI_API_KEY));
-console.log("OPENAI_API_KEY starts with:", process.env.OPENAI_API_KEY?.slice(0, 6));
-
-// Initialize OpenAI client
+// Never log API keys or key material (OWASP: secure handling)
+// Initialize OpenAI client using env only (rotate keys via env, not code)
 const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY // Use environment variables for security
+    apiKey: process.env.OPENAI_API_KEY
 });
+
+// Token limits for student/resume project — keeps cost low, responses still good
+// Override in backend/.env: OPENAI_MAX_TOKENS_CHAT, OPENAI_MAX_TOKENS_PLANS
+const MAX_TOKENS_CHAT = Number(process.env.OPENAI_MAX_TOKENS_CHAT) || 350;   // Berry chat, wellness
+const MAX_TOKENS_PLANS = Number(process.env.OPENAI_MAX_TOKENS_PLANS) || 550;  // workout & meal plans
 
 /**
  * System prompt for the fitness and nutrition assistant
@@ -106,7 +108,7 @@ export async function chatWithAssistant(message, userGoals = null, context = nul
             model: process.env.OPENAI_MODEL || 'gpt-3.5-turbo',
             messages: messages,
             temperature: 0.7,
-            max_tokens: 500
+            max_tokens: MAX_TOKENS_CHAT
         });
 
         return response.choices[0].message.content;
@@ -154,7 +156,7 @@ Keep it practical, safe, and emphasize consistency. Format as a clear, easy-to-f
                 { role: 'user', content: prompt }
             ],
             temperature: 0.7,
-            max_tokens: 800
+            max_tokens: MAX_TOKENS_PLANS
         });
 
         return response.choices[0].message.content;
@@ -194,7 +196,7 @@ Keep it balanced, realistic, and easy to follow. Avoid extreme restrictions.`;
                 { role: 'user', content: prompt }
             ],
             temperature: 0.7,
-            max_tokens: 800
+            max_tokens: MAX_TOKENS_PLANS
         });
 
         return response.choices[0].message.content;
@@ -222,7 +224,7 @@ Give actionable, simple steps. Focus on consistency and sustainable habits.`;
                 { role: 'user', content: prompt }
             ],
             temperature: 0.7,
-            max_tokens: 500
+            max_tokens: MAX_TOKENS_CHAT
         });
 
         return response.choices[0].message.content;

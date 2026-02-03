@@ -1,7 +1,12 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
 
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+// Load backend/.env so API keys are never hard-coded (OWASP)
+dotenv.config({ path: resolve(__dirname, '..', '.env') });
 
 const BASE_URL = 'https://api.api-ninjas.com/v1';
 const EXERCISE_API_KEY = process.env.EXERCISE_API_KEY;

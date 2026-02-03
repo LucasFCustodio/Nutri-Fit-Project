@@ -1,6 +1,6 @@
 # NutriFit — Fitness & Nutrition Health App
 
-**FAU Biomedical Hackathon** · Built by Lucas Fracasso Custodio & NathAnael Castro
+**FAU Biomedical Hackathon** · Built by Lucas Fracasso Custodio & Nathanael Castro & Bruno DeSousa
 
 NutriFit is a health and wellness web app that helps you organize nutrition and fitness goals, plan meals, and get personalized guidance from **Berry**, an AI assistant. Everything is designed to be practical, beginner-friendly, and backed by clear, actionable advice.
 
@@ -26,6 +26,7 @@ FAU-Biomedical-Hackathon/
 │   ├── index.js              # Frontend server, routes, static files
 │   ├── package.json
 │   ├── public/
+
 │   │   ├── images/
 │   │   ├── js/               # e.g. calendar.js
 │   │   └── styles/           # CSS per page

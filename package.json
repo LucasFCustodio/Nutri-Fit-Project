@@ -1,7 +1,7 @@
 {
   "name": "nutri-fit-project",
   "version": "1.0.0",
-  "description": "**FAU Biomedical Hackathon** · Built by Lucas Fracasso Custodio, NathAnael Castro, & Bruno DeSousa",
+  "description": "**FAU Biomedical Hackathon** · Built by Lucas Fracasso Custodio, Nathanael Castro, & Bruno DeSousa",
   "homepage": "https://github.com/LucasFCustodio/Nutri-Fit-Project#readme",
   "bugs": {
     "url": "https://github.com/LucasFCustodio/Nutri-Fit-Project/issues"
@@ -11,10 +11,14 @@
     "url": "git+https://github.com/LucasFCustodio/Nutri-Fit-Project.git"
   },
   "license": "ISC",
-  "author": "Lucas Custodio, Nate Castro, Bruno DeSousa",
+  "author": "Lucas Custodio, Nathanael Castro, Bruno DeSousa",
   "type": "module",
   "main": "index.js",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "test:berry": "node Tests/test-berry-console.js",
     "chat:berry": "node Tests/chat-berry.js",

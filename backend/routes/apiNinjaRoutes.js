@@ -5,26 +5,26 @@ import {
     searchRecipes,
     getExercises,
     getAllExercisesForMuscle
-} from '../services/apiNinjasService.js';
+} from '../services/apiNinjaService.js';
+import { validateQuery } from '../middleware/validate.js';
+import {
+    apiNutritionQuerySchema,
+    apiNutritionItemQuerySchema,
+    apiRecipesQuerySchema,
+    apiExercisesQuerySchema,
+    apiExercisesMuscleQuerySchema,
+    apiMuscleParamSchema
+} from '../config/schemas.js';
 
 const router = express.Router();
 
 /**
  * GET /api/ninjas/nutrition
- * Get nutrition information from text query
- * Query params: query (required) - Food item or meal description
+ * Query params: query (required), validated length/type
  */
-router.get('/nutrition', async (req, res) => {
+router.get('/nutrition', validateQuery(apiNutritionQuerySchema), async (req, res) => {
     try {
-        const { query } = req.query;
-
-        if (!query) {
-            return res.status(400).json({
-                error: 'Query parameter is required',
-                status: 'error'
-            });
-        }
-
+        const { query } = req.validatedQuery;
         const result = await getNutritionInfo(query);
 
         if (!result.success) {
@@ -51,22 +51,11 @@ router.get('/nutrition', async (req, res) => {
 
 /**
  * GET /api/ninjas/nutrition-item
- * Get nutrition information for a specific item with quantity
- * Query params: 
- *   - item (required) - Food item name
- *   - quantity (optional) - Quantity (e.g., "1 cup", "100g", "2 tbsp"), defaults to "100g"
+ * Query params: item (required), quantity (optional), validated
  */
-router.get('/nutrition-item', async (req, res) => {
+router.get('/nutrition-item', validateQuery(apiNutritionItemQuerySchema), async (req, res) => {
     try {
-        const { item, quantity } = req.query;
-
-        if (!item) {
-            return res.status(400).json({
-                error: 'Item parameter is required',
-                status: 'error'
-            });
-        }
-
+        const { item, quantity } = req.validatedQuery;
         const result = await getNutritionItem(item, quantity);
 
         if (!result.success) {
@@ -93,28 +82,12 @@ router.get('/nutrition-item', async (req, res) => {
 
 /**
  * GET /api/ninjas/recipes
- * Search for recipes
- * Query params:
- *   - query (required) - Recipe name or ingredients
- *   - limit (optional) - Number of results (default: 5, max: 5 for free tier)
- *   - offset (optional) - Offset for pagination (premium)
+ * Query params: query (required), validated
  */
-router.get('/recipes', async (req, res) => {
+router.get('/recipes', validateQuery(apiRecipesQuerySchema), async (req, res) => {
     try {
-        const { query, limit, offset } = req.query;
-
-        if (!query) {
-            return res.status(400).json({
-                error: 'Query parameter is required',
-                status: 'error'
-            });
-        }
-
-        // Don't pass limit/offset for free tier (premium features only)
-        const result = await searchRecipes({
-            query
-            // limit and offset are premium-only, so we don't pass them
-        });
+        const { query } = req.validatedQuery;
+        const result = await searchRecipes({ query });
 
         if (!result.success) {
             return res.status(500).json({
@@ -140,33 +113,18 @@ router.get('/recipes', async (req, res) => {
 
 /**
  * GET /api/ninjas/exercises
- * Get exercises based on search criteria
- * Query params (all optional):
- *   - name - Exercise name (partial matching)
- *   - type - Exercise type (cardio, olympic_weightlifting, plyometrics, powerlifting, strength, stretching, strongman)
- *   - muscle - Target muscle group
- *   - difficulty - Difficulty level (beginner, intermediate, expert)
- *   - equipment - Equipment needed (comma-separated)
+ * Query params: at least one of name, type, muscle, difficulty, equipment; validated
  */
-router.get('/exercises', async (req, res) => {
+router.get('/exercises', validateQuery(apiExercisesQuerySchema), async (req, res) => {
     try {
-        const { name, type, muscle, difficulty, equipment } = req.query;
-
-        // At least one parameter should be provided
-        if (!name && !type && !muscle && !difficulty && !equipment) {
+        const q = req.validatedQuery;
+        if (!q.name && !q.type && !q.muscle && !q.difficulty && !q.equipment) {
             return res.status(400).json({
                 error: 'At least one search parameter is required (name, type, muscle, difficulty, or equipment)',
                 status: 'error'
             });
         }
-
-        const result = await getExercises({
-            name,
-            type,
-            muscle,
-            difficulty,
-            equipment
-        });
+        const result = await getExercises(q);
 
         if (!result.success) {
             return res.status(500).json({
@@ -192,20 +150,19 @@ router.get('/exercises', async (req, res) => {
 
 /**
  * GET /api/ninjas/exercises/muscle/:muscle
- * Get all exercises for a specific muscle group
- * Query params:
- *   - limit (optional) - Number of results (default: 10, max: 100)
- *   - offset (optional) - Offset for pagination
+ * Params: muscle (required, validated). Query: limit, offset (optional)
  */
-router.get('/exercises/muscle/:muscle', async (req, res) => {
+router.get('/exercises/muscle/:muscle', validateQuery(apiExercisesMuscleQuerySchema), async (req, res) => {
     try {
-        const { muscle } = req.params;
-        const { limit, offset } = req.query;
-
+        const { error: paramErr, value: muscle } = apiMuscleParamSchema.validate(req.params.muscle);
+        if (paramErr) {
+            return res.status(400).json({ error: 'Invalid muscle parameter', status: 'error' });
+        }
+        const q = req.validatedQuery || {};
         const result = await getAllExercisesForMuscle(
             muscle,
-            limit ? parseInt(limit) : undefined,
-            offset ? parseInt(offset) : undefined
+            q.limit,
+            q.offset
         );
 
         if (!result.success) {

@@ -1,21 +1,29 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import supabase from './public/js/supabaseClient.js';
-import OpenAI from 'openai';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { chatWithAssistant } from './backend/services/aiService.js';
+import supabase from './backend/db/supabase.js';
+import { generalLimiter, postLimiter, aiLimiter } from './backend/middleware/rateLimit.js';
+import { validateBody, validateParams } from './backend/middleware/validate.js';
+import {
+    signInSchema,
+    nutriCardSchema,
+    fitCardSchema,
+    recoveryCardSchema,
+    askBerrySchema,
+    cardTypeSchema,
+    cardIdSchema
+} from './backend/config/schemas.js';
+import aiRoutes from './backend/routes/aiRoutes.js';
+import apiNinjaRoutes from './backend/routes/apiNinjaRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Load environment variables from backend/.env
+// Load environment variables from backend/.env (no keys in code - OWASP)
 dotenv.config({ path: join(__dirname, 'backend', '.env') });
-
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY // Use environment variables for security
-});
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -24,24 +32,29 @@ const port = process.env.PORT || 3000;
 app.set('view engine', 'ejs');
 app.set('views', join(__dirname, 'views'));
 
-//Public folder
-app.use(express.static("public"));
+// Rate limiting: apply general (IP-based) to all routes first
+app.use(generalLimiter);
 
-//Middleware
+// Middleware (form + JSON for API routes)
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
-//server SIGN-IN get request
+// --- Page routes (must be before static so GET / is handled here, not by static) ---
+// Health check (confirm this app is running: GET http://localhost:PORT/health)
+app.get('/health', (req, res) => {
+    res.json({ status: 'ok', app: 'NutriFit' });
+});
+
+// Server SIGN-IN get request (root path)
 app.get('/', (req, res) => {
     res.render('signin.ejs');
 });
 
-//Server HOME PAGE post request
+// Server HOME PAGE post request (validated; no unexpected fields)
 var name_data;
-app.post('/home', (req, res) => {
-    name_data = {
-        firstName: req.body.firstName,
-        lastName: req.body.lastName
-    };
+app.post('/home', postLimiter, validateBody(signInSchema, { htmlResponse: true }), (req, res) => {
+    const v = req.validatedBody;
+    name_data = { firstName: v.firstName, lastName: v.lastName };
     res.render('index.ejs', {
         data: name_data,
         pageCss: '/styles/index.css'
@@ -65,11 +78,14 @@ app.get('/home', async (req, res) => {
 });
 
 
-//Post Request for calendar page when data comes in from NUTRI CARD form
+// Post Request for calendar page when data comes in from NUTRI CARD form (validated)
 var nutriData;
-app.post('/calendar', async (req, res) => {
-    nutriData = req.body;
-    //Insert nutriData content into the nutri-card table in supabase
+app.post('/calendar', postLimiter, validateBody(nutriCardSchema, { htmlResponse: true }), async (req, res) => {
+    nutriData = req.validatedBody;
+    // Coerce optional numbers (Joi may leave '' from form)
+    if (nutriData.carbs === '' || nutriData.carbs == null) nutriData.carbs = null;
+    if (nutriData.protein === '' || nutriData.protein == null) nutriData.protein = null;
+    if (nutriData.fat === '' || nutriData.fat == null) nutriData.fat = null;
     const { data, error } = await supabase
         .from('nutri-card')
         .insert([ nutriData ]);
@@ -124,9 +140,8 @@ app.post('/calendar', async (req, res) => {
     });
 });
 
-app.post('/calendar2', async (req, res) => {
-    nutriData = req.body;
-    //Insert nutriData content into the fit table in supabase
+app.post('/calendar2', postLimiter, validateBody(fitCardSchema, { htmlResponse: true }), async (req, res) => {
+    nutriData = req.validatedBody;
     const { data, error } = await supabase
         .from('fit-card')
         .insert([ nutriData ]);
@@ -181,9 +196,8 @@ app.post('/calendar2', async (req, res) => {
     });
 });
 
-app.post('/calendar3', async (req, res) => {
-    nutriData = req.body;
-    //Insert nutriData content into the fit table in supabase
+app.post('/calendar3', postLimiter, validateBody(recoveryCardSchema, { htmlResponse: true }), async (req, res) => {
+    nutriData = req.validatedBody;
     const { data, error } = await supabase
         .from('recovery-card')
         .insert([ nutriData ]);
@@ -281,25 +295,15 @@ app.get('/calendar', async (req, res) => {
     });
 });
 
-// Server GET request for specific card details
-// :type matches "nutri-card", "fit-card", etc.
-// :id matches the specific ID number (e.g., 5)
-app.get('/details/:type/:id', async (req, res) => {
-    const cardType = req.params.type; // e.g., 'nutri-card'
-    const cardId = req.params.id;     // e.g., '14'
+// Server GET request for specific card details (params validated)
+app.get('/details/:type/:id', validateParams(cardTypeSchema, cardIdSchema), async (req, res) => {
+    const { type: cardType, id: cardId } = req.validatedParams;
 
-    // Validate that the type is allowed (security best practice)
-    const allowedTables = ['nutri-card', 'fit-card', 'recovery-card'];
-    if (!allowedTables.includes(cardType)) {
-        return res.status(400).send("Invalid card type");
-    }
-
-    // Fetch the SINGLE specific row from Supabase
     const { data, error } = await supabase
-        .from(cardType)       // Select table based on URL
+        .from(cardType)
         .select('*')
-        .eq('id', cardId)     // Find row where id matches URL
-        .single();            // Expect only one result
+        .eq('id', cardId)
+        .single();
 
     if (error) {
         console.error("Error fetching details:", error);
@@ -314,18 +318,10 @@ app.get('/details/:type/:id', async (req, res) => {
     }
 });
 
-// Server POST request to DELETE a card
-app.post('/delete/:type/:id', async (req, res) => {
-    const cardType = req.params.type;
-    const cardId = req.params.id;
+// Server POST request to DELETE a card (params validated)
+app.post('/delete/:type/:id', postLimiter, validateParams(cardTypeSchema, cardIdSchema), async (req, res) => {
+    const { type: cardType, id: cardId } = req.validatedParams;
 
-    // Security Check: Ensure they are only trying to delete from valid tables
-    const allowedTables = ['nutri-card', 'fit-card', 'recovery-card'];
-    if (!allowedTables.includes(cardType)) {
-        return res.status(400).send("Invalid card type");
-    }
-
-    // Supabase Delete Operation
     const { error } = await supabase
         .from(cardType)       // Select the table (e.g., 'nutri-card')
         .delete()             // The delete command
@@ -372,18 +368,13 @@ app.get('/ask-berry', (req, res) => {
     });
 });
 
-//Server ASK BERRY post request (Handle the AI Logic)
-app.post('/ask-berry', async (req, res) => {
+// Server ASK BERRY post request (rate-limited, validated)
+app.post('/ask-berry', aiLimiter, validateBody(askBerrySchema, { htmlResponse: true }), async (req, res) => {
     try {
-        const userPrompt = req.body.prompt;
-        
-        // 1. Call your AI service
-        // We pass 'null' for goals/context for now since the simple form doesn't have them
+        const userPrompt = req.validatedBody.prompt;
+
         const aiResult = await chatWithAssistant(userPrompt, null, null);
-        
-        // 2. Extract the text message
-        // OpenAI returns a complex object, we need to dig into .choices[0].message.content
-        // We add a safety check just in case the service returns a plain string
+
         let botMessage;
         if (typeof aiResult === 'string') {
             botMessage = aiResult;
@@ -393,23 +384,41 @@ app.post('/ask-berry', async (req, res) => {
             botMessage = "I didn't receive a valid response.";
         }
 
-        // 3. Render the page again with the response
-        res.render('ask-berry.ejs', { 
+        res.render('ask-berry.ejs', {
             pageCss: '/styles/ask-berry.css',
-            response: botMessage, 
-            userPrompt: userPrompt 
+            response: botMessage,
+            userPrompt: userPrompt
         });
+    } catch (error) {
+        console.error('AI Error:', error);
+        res.render('ask-berry.ejs', {
+            pageCss: '/styles/ask-berry.css',
+            response: 'Sorry, Berry is taking a break. Please try again later.',
+            userPrompt: req.validatedBody?.prompt ?? ''
+        });
+    }
+});
 
-        } catch (error) {
-            console.error("AI Error:", error);
-            res.render('ask-berry.ejs', { 
-                pageCss: '/styles/ask-berry.css',
-                response: "Sorry, Berry is taking a break. Please try again later.", 
-                userPrompt: req.body.prompt 
-            });
-        }
-    });
+// Static assets (CSS, JS, images) — after page routes so GET / is handled above
+app.use(express.static('public'));
+
+// API routes (rate-limited; validation applied inside each router)
+app.use('/api/ai', aiLimiter, aiRoutes);
+app.use('/api/ninjas', postLimiter, apiNinjaRoutes);
+
+// 404: send back to sign-in (so unknown paths don't show a generic error)
+app.use((req, res) => {
+    res.status(404).redirect('/');
+});
 
 app.listen(port, () => {
-    console.log("Server running on port " + port);
+    console.log('Server running on http://localhost:' + port);
+    console.log('  → Sign-in: http://localhost:' + port + '/');
+    console.log('  → Health:  http://localhost:' + port + '/health');
+}).on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+        console.error('Port ' + port + ' is already in use. Stop the other process or set PORT in backend/.env to a different number (e.g. 3000).');
+        process.exit(1);
+    }
+    throw err;
 });

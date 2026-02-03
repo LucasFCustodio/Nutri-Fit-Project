@@ -1,26 +1,18 @@
 import express from 'express';
 import { chatWithAssistant, generateWorkoutPlan, generateMealPlan, getWellnessAdvice } from '../services/aiService.js';
+import { validateBody } from '../middleware/validate.js';
+import { apiChatSchema, apiWorkoutPlanSchema, apiMealPlanSchema, apiWellnessSchema } from '../config/schemas.js';
 
 const router = express.Router();
 
 /**
  * POST /api/ai/chat
- * General chat endpoint for fitness and nutrition questions
+ * General chat endpoint (validated: message required, length limits, no unexpected fields)
  */
-router.post('/chat', async (req, res) => {
+router.post('/chat', validateBody(apiChatSchema), async (req, res) => {
     try {
-        const { message, userGoals, context } = req.body;
-
-        if (!message || typeof message !== 'string') {
-            return res.status(400).json({
-                error: 'Message is required and must be a string',
-                status: 'error'
-            });
-        }
-
-        const response = await chatWithAssistant(message, userGoals, context);
-        console.log("Response:", response);
-        
+        const { message, userGoals, context } = req.validatedBody;
+        const response = await chatWithAssistant(message, userGoals || null, context || null);
         res.json({
             status: 'success',
             response: response,
@@ -38,35 +30,19 @@ router.post('/chat', async (req, res) => {
 
 /**
  * POST /api/ai/workout-plan
- * Generate a personalized workout plan
+ * Generate a personalized workout plan (validated body)
  */
-router.post('/workout-plan', async (req, res) => {
+router.post('/workout-plan', validateBody(apiWorkoutPlanSchema), async (req, res) => {
     try {
-        const { 
-            goal, 
-            fitnessLevel, 
-            daysPerWeek, 
-            duration, 
-            equipment,
-            preferences 
-        } = req.body;
-
-        if (!goal) {
-            return res.status(400).json({
-                error: 'Goal is required',
-                status: 'error'
-            });
-        }
-
+        const b = req.validatedBody;
         const plan = await generateWorkoutPlan({
-            goal,
-            fitnessLevel: fitnessLevel || 'beginner',
-            daysPerWeek: daysPerWeek || 3,
-            duration: duration || 30,
-            equipment: equipment || 'none',
-            preferences: preferences || {}
+            goal: b.goal,
+            fitnessLevel: b.fitnessLevel || 'beginner',
+            daysPerWeek: b.daysPerWeek ?? 3,
+            duration: b.duration ?? 30,
+            equipment: b.equipment || 'none',
+            preferences: b.preferences || {}
         });
-
         res.json({
             status: 'success',
             plan: plan,
@@ -84,33 +60,18 @@ router.post('/workout-plan', async (req, res) => {
 
 /**
  * POST /api/ai/meal-plan
- * Generate a personalized meal plan
+ * Generate a personalized meal plan (validated body)
  */
-router.post('/meal-plan', async (req, res) => {
+router.post('/meal-plan', validateBody(apiMealPlanSchema), async (req, res) => {
     try {
-        const { 
-            goal, 
-            dietaryRestrictions, 
-            calories, 
-            mealsPerDay,
-            preferences 
-        } = req.body;
-
-        if (!goal) {
-            return res.status(400).json({
-                error: 'Goal is required',
-                status: 'error'
-            });
-        }
-
+        const b = req.validatedBody;
         const plan = await generateMealPlan({
-            goal,
-            dietaryRestrictions: dietaryRestrictions || [],
-            calories: calories || 2000,
-            mealsPerDay: mealsPerDay || 3,
-            preferences: preferences || {}
+            goal: b.goal,
+            dietaryRestrictions: b.dietaryRestrictions || [],
+            calories: b.calories ?? 2000,
+            mealsPerDay: b.mealsPerDay ?? 3,
+            preferences: b.preferences || {}
         });
-
         res.json({
             status: 'success',
             plan: plan,
@@ -128,14 +89,12 @@ router.post('/meal-plan', async (req, res) => {
 
 /**
  * POST /api/ai/wellness-advice
- * Get general wellness and healthy habit advice
+ * Get general wellness and healthy habit advice (validated body)
  */
-router.post('/wellness-advice', async (req, res) => {
+router.post('/wellness-advice', validateBody(apiWellnessSchema), async (req, res) => {
     try {
-        const { topic, userGoals, currentHabits } = req.body;
-
-        const advice = await getWellnessAdvice(topic, userGoals, currentHabits);
-
+        const b = req.validatedBody;
+        const advice = await getWellnessAdvice(b.topic || null, b.userGoals || null, b.currentHabits || null);
         res.json({
             status: 'success',
             advice: advice,
